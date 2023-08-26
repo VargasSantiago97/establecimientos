@@ -24,6 +24,7 @@
                 <th *ngIf="mostrar.contacto">Contacto</th>
                 <th *ngIf="mostrar.contacto">Celular</th>
                 <th *ngIf="mostrar.contacto">Correo</th>
+                
                 <th>WEPA</th>
                 <th>WEPA</th>
                 <th>WEPA</th>
@@ -37,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let dato of db.rubros">
+            <tr *ngFor="let dato of datosEstablecimientos">
                 <td *ngFor="let col of cols">{{dato[col.field]}}</td>
             </tr>
         </tbody>

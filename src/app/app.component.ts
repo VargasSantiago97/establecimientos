@@ -10,13 +10,16 @@ export class AppComponent {
     title = 'ESTABLECIMIENTOS';
     db:any = {}
 
+    datosEstablecimientos: any = []
+
     user: any = 'admin'
     password: any = '123456798'
 
     cols: any = []
 
     mostrar: any = {
-        arrendadores: true
+        arrendadores: true,
+        renspa: true
     }
 
     constructor(
@@ -67,5 +70,23 @@ export class AppComponent {
     }
     obtenerDatos(){
         this.cs.getDB('socios', this.db, () => { console.log(this.db) })
+
+        this.cs.getDB('establecimientos', this.db, () => { this.prepararDatosTabla() })
     }
+
+
+    prepararDatosTabla(){
+        this.datosEstablecimientos = []
+
+        this.db['establecimientos'].forEach((establecimiento:any) => {
+
+            var item:any = {
+                establecimiento: establecimiento.alias
+            }
+
+            this.datosEstablecimientos.push(item)
+
+        })
+    }
+
 }

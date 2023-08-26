@@ -12,8 +12,7 @@ export class ComunicacionService {
 
     formatoColumnas: any = {
         users: ['id', 'alias', 'nombre', 'apellido', 'email', 'contrasena', 'imagen', 'datos', 'estado'],
-        rubros: ['id', 'alias', 'color', 'datos', 'estado'],
-        subrubros: ['id', 'id_rubro', 'alias', 'color', 'datos', 'estado'],
+        establecimientos: ['id', 'alias', 'datos', 'estado'],
     }
 
     constructor(
