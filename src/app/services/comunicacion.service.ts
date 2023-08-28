@@ -33,8 +33,14 @@ export class ComunicacionService {
         sent += ') VALUES ("'
 
         this.formatoColumnas[tabla].forEach((e: any) => {
-            const sumar = data[e] ? (data[e].toString() ? data[e].toString() : '') : ''
+            if(e == 'datos'){
+                data[e] = JSON.stringify(data[e]) ? JSON.stringify(data[e]) : '{}'
+            }
+
+            var sumar = data[e] ? (data[e].toString() ? data[e].toString() : '') : ''
+
             sent += sumar
+
             sent += '", "'
         });
 
@@ -46,7 +52,13 @@ export class ComunicacionService {
         var sent = 'UPDATE ' + tabla + ' SET '
 
         for (let i = 0; i < this.formatoColumnas[tabla].length; i++) {
-            const agregar = this.formatoColumnas[tabla][i] + ' = "' + data[this.formatoColumnas[tabla][i]] + '", '
+            var dato = data[this.formatoColumnas[tabla][i]]
+
+            if(this.formatoColumnas[tabla][i] == 'datos'){
+                dato = JSON.stringify(data[this.formatoColumnas[tabla][i]]) ? JSON.stringify(data[this.formatoColumnas[tabla][i]]) : '{}'
+            }
+
+            const agregar = this.formatoColumnas[tabla][i] + ' = "' + dato + '", '
             sent += agregar
         }
 
@@ -67,7 +79,7 @@ export class ComunicacionService {
 
     //Consultas LOCALES:
     getDB(tabla: any, datosGuardar: any, fn: any = false) {
-        this.getDBServer(tabla,).subscribe(
+        this.getDBServer(tabla).subscribe(
             (res: any) => {
                 if (res.ok) {
                     res.data.forEach((e: any) => {

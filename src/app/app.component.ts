@@ -7,6 +7,7 @@ import { ComunicacionService } from './services/comunicacion.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
     title = 'ESTABLECIMIENTOS';
     db:any = {}
 
@@ -16,6 +17,11 @@ export class AppComponent {
     password: any = '123456798'
 
     cols: any = []
+
+    displayCampo: any = 'none'
+    displayCampoTitulo: any = ''
+
+    establecimiento: any = {alias : ''};
 
     mostrar: any = {
         arrendadores: true,
@@ -31,8 +37,8 @@ export class AppComponent {
         //this.crearSesion('admin', '123456798')
 
         this.cols = [
-            {field: 'produce', header: 'Produce'},
             {field: 'establecimiento', header: 'Establecimiento'},
+            {field: 'produce', header: 'Produce'},
             {field: 'arrendadores', header: 'Dueños'},
             {field: 'contrato', header: 'Contratos'},
             {field: 'vencimiento', header: 'Vencimiento'},
@@ -81,6 +87,7 @@ export class AppComponent {
         this.db['establecimientos'].forEach((establecimiento:any) => {
 
             var item:any = {
+                id: establecimiento.id,
                 establecimiento: establecimiento.alias
             }
 
@@ -89,4 +96,66 @@ export class AppComponent {
         })
     }
 
+    abrirModalCampo(idd:any = null){
+
+        if(idd){
+            //buscar establecimiento
+            this.displayCampoTitulo = 'Editar '
+            this.establecimiento = this.db['establecimientos'].find((e:any) => { return e.id == idd })
+
+        } else {
+            this.displayCampoTitulo = 'Nuevo '
+            this.establecimiento = {
+                id: null,
+                alias: ''
+            }
+        }
+
+        this.displayCampo = 'block'
+    }
+
+    aceptarEstablecimiento(){
+        if(this.establecimiento.id){
+            //EDITAR
+            this.cs.updateDB('establecimientos', this.establecimiento, () => {
+                this.displayCampo = 'none'
+                this.cs.getDB('establecimientos', this.db, () => { this.prepararDatosTabla() })
+            })
+        } else {
+            //CREAR
+            this.establecimiento.id = this.generarID('establecimientos')
+            this.establecimiento.estado = 1
+
+            this.cs.createDB('establecimientos', this.establecimiento, () => {
+                this.displayCampo = 'none'
+                this.cs.getDB('establecimientos', this.db, () => { this.prepararDatosTabla() })
+            })
+        }
+    }
+
+    generarID(tabla:any){
+        var idd:any = this.generateUUID()
+        if(!this.db[tabla].some((e:any) => { return e.id == idd})){
+            return idd
+        }
+        idd = this.generateUUID()
+        if(!this.db[tabla].some((e:any) => { return e.id == idd})){
+            return idd
+        }
+        idd = this.generateUUID()
+        if(!this.db[tabla].some((e:any) => { return e.id == idd})){
+            return idd
+        }
+        idd = this.generateUUID()
+        return idd
+    }
+    generateUUID() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+        return uuid;
+    }
 }
