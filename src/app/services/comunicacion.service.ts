@@ -12,6 +12,7 @@ export class ComunicacionService {
 
     formatoColumnas: any = {
         users: ['id', 'alias', 'nombre', 'apellido', 'email', 'contrasena', 'imagen', 'datos', 'estado'],
+        socios: ['id', 'alias', 'razon_social', 'cuit', 'estado'],
         establecimientos: ['id', 'alias', 'datos', 'estado'],
     }
 

@@ -9,7 +9,20 @@ import { ComunicacionService } from './services/comunicacion.service';
 export class AppComponent {
 
     title = 'ESTABLECIMIENTOS';
-    db:any = {}
+    db:any = {
+        socios: [
+            {
+                alias: "NORTE",
+                razon_social: "NORTE SEMILLAS",
+                cuit: "20000000001"
+            },
+            {
+                alias: "YAGUA",
+                razon_social: "YAGUA COLI",
+                cuit: "20000000001"
+            }
+        ]
+    }
 
     datosEstablecimientos: any = []
 
@@ -19,9 +32,13 @@ export class AppComponent {
     cols: any = []
 
     displayCampo: any = 'none'
+    displaySocios: any = 'none'
+    displaySocio: any = 'none'
+    
     displayCampoTitulo: any = ''
-
+    
     establecimiento: any = {alias : ''};
+    socio: any
 
     mostrar: any = {
         arrendadores: true,
@@ -33,8 +50,6 @@ export class AppComponent {
     ){}
 
     ngOnInit(){
-        //this.cs.getDB('rubros', this.db, () => { console.log(this.db) })
-        //this.crearSesion('admin', '123456798')
 
         this.cols = [
             {field: 'establecimiento', header: 'Establecimiento'},
@@ -52,6 +67,8 @@ export class AppComponent {
             {field: 'ciltivo', header: 'Cultivo'}
         ]
     }
+
+
 
     crearSesion(){
         this.cs.crearSesion(this.user, this.password).subscribe(
@@ -132,6 +149,39 @@ export class AppComponent {
             })
         }
     }
+
+    abrirModalSocio(idd:any = null){
+
+        if(idd){
+            //buscar socio
+            this.socio = this.db['socios'].find((e:any) => { return e.id == idd })
+
+        } else {
+            this.socio = {
+                id: null,
+                alias: '',
+                razon_social: ''
+            }
+        }
+
+        this.displaySocio = 'block'
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     generarID(tabla:any){
         var idd:any = this.generateUUID()

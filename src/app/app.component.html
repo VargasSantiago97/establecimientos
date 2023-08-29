@@ -4,6 +4,7 @@
     </button>
     <button type="button" class="btn btn-sm m-1 btn-primary" (click)="obtenerDatos()">OBTENER DATOS</button>
     <button type="button" class="btn btn-sm m-1 btn-success" (click)="abrirModalCampo()">NUEVO CAMPO</button>
+    <button type="button" class="btn btn-sm m-1 btn-success" (click)="displaySocios = 'block'">SOCIOS</button>
     <button type="button" class="btn btn-sm m-1 btn-success" data-bs-toggle="modal"
         data-bs-target="#mostrar">MOSTRAR</button>
 </div>
@@ -23,7 +24,7 @@
                 <th *ngIf="mostrar.contacto">Contacto</th>
                 <th *ngIf="mostrar.contacto">Celular</th>
                 <th *ngIf="mostrar.contacto">Correo</th>
-                
+
                 <th>WEPA</th>
                 <th>WEPA</th>
                 <th>WEPA</th>
@@ -82,8 +83,8 @@
 
 
 <!-- Modal MOSTRAR -->
-<div class="modal modal-dialog modal-dialog-scrollable" id="modalEstablecimiento" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal modal-dialog modal-dialog-scrollable" id="modalEstablecimiento" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,19 +96,22 @@
                     <div class="row mb-3">
                         <div class="col-sm-10 offset-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="produce" [(ngModel)]="mostrar.produce" [ngModelOptions]="{ standalone: true }">
+                                <input class="form-check-input" type="checkbox" id="produce"
+                                    [(ngModel)]="mostrar.produce" [ngModelOptions]="{ standalone: true }">
                                 <label class="form-check-label" for="produce">
                                     Produce
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="arrendadores" [(ngModel)]="mostrar.arrendadores" [ngModelOptions]="{ standalone: true }">
+                                <input class="form-check-input" type="checkbox" id="arrendadores"
+                                    [(ngModel)]="mostrar.arrendadores" [ngModelOptions]="{ standalone: true }">
                                 <label class="form-check-label" for="arrendadores">
                                     Dueños
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="contacto" [(ngModel)]="mostrar.contacto" [ngModelOptions]="{ standalone: true }">
+                                <input class="form-check-input" type="checkbox" id="contacto"
+                                    [(ngModel)]="mostrar.contacto" [ngModelOptions]="{ standalone: true }">
                                 <label class="form-check-label" for="contacto">
                                     Contacto
                                 </label>
@@ -126,30 +130,109 @@
 
 <!-- Modal CAMPO -->
 <div id="miModal" class="modal-nuevo" [style]="{display: displayCampo}">
-  <div class="modal-contenido">
-    
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>{{displayCampoTitulo}} establecimiento</h2>
-            <span id="cerrarModalBtn" class="cerrar" (click)="displayCampo = 'none'">&times;</span>
-        </div>
-        <div class="modal-body">
-            <br><br>
-            <form>
-                <div class="row mb-3">
-                    <label for="inputEst" class="col-sm-2 col-form-label">Establecimiento</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputEst" placeholder="Establecimiento" [(ngModel)]="establecimiento.alias"
-                            [ngModelOptions]="{ standalone: true }">
+    <div class="modal-contenido">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>{{displayCampoTitulo}} establecimiento</h2>
+                <span id="cerrarModalBtn" class="cerrar" (click)="displayCampo = 'none'">&times;</span>
+            </div>
+            <div class="modal-body">
+                <br><br>
+                <form>
+                    <div class="row mb-3">
+                        <label for="inputEst" class="col-sm-2 col-form-label">Establecimiento</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputEst" placeholder="Establecimiento"
+                                [(ngModel)]="establecimiento.alias" [ngModelOptions]="{ standalone: true }">
+                        </div>
                     </div>
-                </div>
-            </form>
-            <br><br><br>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn m-1 btn-secondary" (click)="displayCampo = 'none'">Cerrar</button>
-            <button type="button" class="btn m-1 btn-primary" (click)="aceptarEstablecimiento()">{{displayCampoTitulo}}</button>
+                </form>
+                <br><br><br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn m-1 btn-secondary" (click)="displayCampo = 'none'">Cerrar</button>
+                <button type="button" class="btn m-1 btn-primary"
+                    (click)="aceptarEstablecimiento()">{{displayCampoTitulo}}</button>
+            </div>
         </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal SOCIOS -->
+<div id="miModalSocios" class="modal-nuevo" [style]="{display: displaySocios}">
+    <div class="modal-contenido">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Socios</h2>
+                <span id="cerrarModalBtn" class="cerrar" (click)="displaySocios = 'none'">&times;</span>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Alias</th>
+                            <th>Razon Social</th>
+                            <th>CUIT</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dato of db.socios" (dblclick)="abrirModalCampo(dato.id)">
+                            <td>{{dato.alias}}</td>
+                            <td>{{dato.razon_social}}</td>
+                            <td>{{dato.cuit}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm mx-1 p-1 btn-success" (click)="abrirModalSocio(dato.id)">EDITAR</button>
+                                <button type="button" class="btn btn-sm mx-1 p-1 btn-danger">BORRAR</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn m-1 btn-secondary" (click)="displaySocios = 'none'">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal SOCIO -->
+<div id="miModalSocios" class="modal-nuevo" [style]="{display: displaySocios}">
+    <div class="modal-contenido" style="width: 700px">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Socios</h2>
+                <span id="cerrarModalBtn" class="cerrar" (click)="displaySocios = 'none'">&times;</span>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Alias</th>
+                            <th>Razon Social</th>
+                            <th>CUIT</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dato of db.socios" (dblclick)="abrirModalCampo(dato.id)">
+                            <td>{{dato.alias}}</td>
+                            <td>{{dato.razon_social}}</td>
+                            <td>{{dato.cuit}}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm mx-1 p-1 btn-success">EDITAR</button>
+                                <button type="button" class="btn btn-sm mx-1 p-1 btn-danger">BORRAR</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn m-1 btn-secondary" (click)="displaySocios = 'none'">Cerrar</button>
+            </div>
+        </div>
+    </div>
 </div>
