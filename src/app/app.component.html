@@ -169,24 +169,22 @@
                 <span id="cerrarModalBtn" class="cerrar" (click)="displaySocios = 'none'">&times;</span>
             </div>
             <div class="modal-body">
+                <br>
+                <button type="button" class="btn m-1 btn-primary" (click)="abrirModalSocio()">Nuevo</button>
+                <br><br>
                 <table class="table table-sm">
                     <thead>
                         <tr>
                             <th>Alias</th>
                             <th>Razon Social</th>
                             <th>CUIT</th>
-                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let dato of db.socios" (dblclick)="abrirModalCampo(dato.id)">
+                        <tr *ngFor="let dato of db.socios" (dblclick)="abrirModalSocio(dato.id)">
                             <td>{{dato.alias}}</td>
                             <td>{{dato.razon_social}}</td>
                             <td>{{dato.cuit}}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm mx-1 p-1 btn-success" (click)="abrirModalSocio(dato.id)">EDITAR</button>
-                                <button type="button" class="btn btn-sm mx-1 p-1 btn-danger">BORRAR</button>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -199,39 +197,35 @@
 </div>
 
 <!-- Modal SOCIO -->
-<div id="miModalSocios" class="modal-nuevo" [style]="{display: displaySocios}">
+<div id="miModalSocio" class="modal-nuevo" [style]="{display: displaySocio}">
     <div class="modal-contenido" style="width: 700px">
 
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Socios</h2>
-                <span id="cerrarModalBtn" class="cerrar" (click)="displaySocios = 'none'">&times;</span>
+                <h2>Socio</h2>
+                <span id="cerrarModalBtn" class="cerrar" (click)="displaySocio = 'none'">&times;</span>
             </div>
             <div class="modal-body">
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>Alias</th>
-                            <th>Razon Social</th>
-                            <th>CUIT</th>
-                            <th>#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let dato of db.socios" (dblclick)="abrirModalCampo(dato.id)">
-                            <td>{{dato.alias}}</td>
-                            <td>{{dato.razon_social}}</td>
-                            <td>{{dato.cuit}}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm mx-1 p-1 btn-success">EDITAR</button>
-                                <button type="button" class="btn btn-sm mx-1 p-1 btn-danger">BORRAR</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Alias</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm" [(ngModel)]="socio.alias" [ngModelOptions]="{ standalone: true }">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Razon Social</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm" [(ngModel)]="socio.razon_social" [ngModelOptions]="{ standalone: true }">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">CUIT</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm" [(ngModel)]="socio.cuit" [ngModelOptions]="{ standalone: true }">
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn m-1 btn-secondary" (click)="displaySocios = 'none'">Cerrar</button>
+                <button type="button" class="btn m-1 btn-success" (click)="displaySocio = 'none'">Guardar</button>
+                <button type="button" class="btn m-1 btn-danger" (click)="displaySocio = 'none'">Eliminar</button>
+                <button type="button" class="btn m-1 btn-secondary" (click)="displaySocio = 'none'">Cerrar</button>
             </div>
         </div>
     </div>

@@ -9,20 +9,7 @@ import { ComunicacionService } from './services/comunicacion.service';
 export class AppComponent {
 
     title = 'ESTABLECIMIENTOS';
-    db:any = {
-        socios: [
-            {
-                alias: "NORTE",
-                razon_social: "NORTE SEMILLAS",
-                cuit: "20000000001"
-            },
-            {
-                alias: "YAGUA",
-                razon_social: "YAGUA COLI",
-                cuit: "20000000001"
-            }
-        ]
-    }
+    db:any = {}
 
     datosEstablecimientos: any = []
 
@@ -38,7 +25,7 @@ export class AppComponent {
     displayCampoTitulo: any = ''
     
     establecimiento: any = {alias : ''};
-    socio: any
+    socio: any = {}
 
     mostrar: any = {
         arrendadores: true,
